@@ -55,17 +55,21 @@ formTemplate.innerHTML = `
 `;
 
 // ============================================================================
+let formContainer;
 document.addEventListener('click', async() => {
-  const word = window.getSelection().toString()
-  if (!word) return;
-  const bubble = await waitForTranslationBubble();
-  console.log(bubble);
+  const selected = window.getSelection().toString()
+  if (!selected) return;
 
-  const formContainer = document.createElement('div');
-  const shadow = formContainer.attachShadow({ mode: 'open' });
-  shadow.appendChild(document.importNode(formTemplate.content, true));
-  bubble.appendChild(formContainer);
+  if (formContainer && formContainer.parentNode.isConnected) {
+    formContainer.shadowRoot.querySelector('input[name=definition]').value = selected;
+  } else {
+    const bubble = await waitForTranslationBubble();
+    formContainer = document.createElement('div');
+    const shadow = formContainer.attachShadow({ mode: 'open' });
+    shadow.appendChild(document.importNode(formTemplate.content, true));
+    bubble.appendChild(formContainer);
 
-  const form =shadow.querySelector('form');
-  form.querySelector('input[name=word]').value = word;
+    const form =shadow.querySelector('form');
+    form.querySelector('input[name=word]').value = selected;
+  }
 })
