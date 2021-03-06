@@ -76,7 +76,10 @@ document.addEventListener('click', async() => {
       const word = form.querySelector('[name=word]').value;
       const definition = form.querySelector('[name=definition]').value;
 
-      console.log(word, definition);
+      addWord(word, definition);
+      const submitBtn = form.querySelector('[type=submit]');
+      submitBtn.disabled = true;
+      submitBtn.value = '已新增！';
     })
   }
 })
