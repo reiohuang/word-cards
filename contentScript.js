@@ -71,5 +71,12 @@ document.addEventListener('click', async() => {
 
     const form =shadow.querySelector('form');
     form.querySelector('input[name=word]').value = selected;
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const word = form.querySelector('[name=word]').value;
+      const definition = form.querySelector('[name=definition]').value;
+
+      console.log(word, definition);
+    })
   }
 })
